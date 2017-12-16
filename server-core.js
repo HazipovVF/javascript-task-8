@@ -8,18 +8,18 @@ var messages = [];
 
 server.on('request', (req, res) => {
     // Тут нужно обработать запрос
-    // const pathname = url.parse(req.url).pathname;
+    const pathname = url.parse(req.url).pathname;
     const query = url.parse(req.url).query;
     const fromAndTo = qs.parse(query);
     res.setHeader('Content-Type', 'application/json');
 
-    if (req.method === 'GET') {
+    if (req.method === 'GET' && pathname === '/messages') {
         var filtredData = JSON.stringify(getFiltredData(fromAndTo));
         res.write(filtredData);
         res.end();
     }
 
-    if (req.method === 'POST') {
+    if (req.method === 'POST' && pathname === '/messages') {
         var body = '';
 
         req.on('data', chunk => {
@@ -32,6 +32,9 @@ server.on('request', (req, res) => {
             res.write(JSON.stringify(messages[messages.length - 1]));
             res.end();
         });
+    } else {
+        res.statuscode = 404;
+        res.end();
     }
 
 });
