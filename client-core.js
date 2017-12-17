@@ -90,11 +90,11 @@ function sendMassege(from, to, text) {
 function rightData(from, to) {
     var result = {};
 
-    if (from !== undefined) {
+    if (from !== undefined && from !== true) {
         result.from = from;
     }
 
-    if (to !== undefined) {
+    if (to !== undefined && to !== true) {
         result.to = to;
     }
 
