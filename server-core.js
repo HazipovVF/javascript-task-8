@@ -17,8 +17,18 @@ server.on('request', (req, res) => {
         res.write(filtredData);
         res.end();
     } else if (req.method === 'POST' && urlTest) {
-        res.statuscode = 404;
-        res.end();
+        var body = '';
+
+        req.on('data', chunk => {
+            body += chunk;
+        });
+
+        req.on('end', () =>{
+            var text = JSON.parse(body).text;
+            messages.push(getData(fromAndTo, text));
+            res.write(JSON.stringify(getData(fromAndTo, text)));
+            res.end();
+        });
     } else {
         res.statuscode = 404;
         res.end();
@@ -50,7 +60,6 @@ function getFiltredData(fromAndTo) {
     return result;
 }
 
-/*
 function getData(fromAndTo, text) {
     var result = {};
     if (fromAndTo.from) {
@@ -64,7 +73,7 @@ function getData(fromAndTo, text) {
     result.text = text;
 
     return result;
-}*/
+}
 
 
 module.exports = server;
