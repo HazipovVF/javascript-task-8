@@ -4,27 +4,18 @@ module.exports.execute = execute;
 module.exports.isStar = false;
 
 const request = require('request');
+const minimist = require('minimist');
 
 const URL = 'http://localhost:8080/messages';
 const chalk = require('chalk');
 const red = chalk.hex('#f00');
 const green = chalk.hex('#0f0');
 
-var ArgumentParser = require('argparse').ArgumentParser;
-var parser = new ArgumentParser({});
-parser.addArgument(
-    ['--from']
-);
-parser.addArgument(
-    ['--to']
-);
-parser.addArgument(
-    ['--text']
-);
-
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
-    const args = parser.parseArgs(process.argv.slice(3));
+    const args = minimist(process.argv.slice(3), {
+        string: ['from', 'to']
+    });
     var from = args.from;
     var to = args.to;
     var text = args.text;
@@ -45,64 +36,41 @@ function execute() {
 function listMasseges(from, to) {
     return new Promise ((resolve, reject) => {
         var options = {
-            uri: URL,
-            qs: rightData(from, to)
+            url: URL,
+            qs: rightData(from, to),
+            method: 'GET',
+            json: true
         };
-        request.get(options)
 
-            .on('response', res => {
-                var body = '';
-
-                res.on('data', chunk => {
-                    body += chunk;
-                });
-
-                res.on('error', () => {
-                    reject('error');
-                });
-
-                res.on('end', () => {
-                    var coolBody = makeBodyGreatAgain(JSON.parse(body));
-                    resolve(coolBody);
-                });
-            })
-            .on('error', () => {
-                reject('error');
-            });
+        request(options, (error, response, body) =>{
+            if (error) {
+                reject('ОШИБКА');
+            }
+            var coolBody = makeBodyGreatAgain(body);
+            resolve(coolBody);
+        });
     });
 }
 
 function sendMassege(from, to, text) {
     return new Promise ((resolve, reject) => {
         var options = {
-            uri: URL,
+            url: URL,
             qs: rightData(from, to),
-            form: JSON.stringify({ text })
+            method: 'POST',
+            body: { text: text },
+            json: true
         };
 
-        request.post(options)
-
-            .on('response', res => {
-                var body = '';
-
-                res.on('data', chunk => {
-                    body += chunk;
-                });
-
-                res.on('error', () => {
-                    reject('error');
-                });
-
-                res.on('end', () => {
-                    var tempArray = [];
-                    tempArray.push(JSON.parse(body));
-                    var coolBody = makeBodyGreatAgain(tempArray);
-                    resolve(coolBody);
-                });
-            })
-            .on('error', () => {
-                reject('error');
-            });
+        request(options, (error, response, body) =>{
+            if (error) {
+                reject('ОШИБКА');
+            }
+            var tempArray = [];
+            tempArray.push(body);
+            var coolBody = makeBodyGreatAgain(tempArray);
+            resolve(coolBody);
+        });
     });
 }
 
