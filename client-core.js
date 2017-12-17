@@ -19,9 +19,6 @@ function execute() {
     var from = args.from;
     var to = args.to;
     var text = args.text;
-    if (args.text === undefined) {
-        text = null;
-    }
     var command = process.argv[2];
     switch (command) {
         case 'send':
@@ -91,8 +88,8 @@ function rightData(from, to) {
 function makeBodyGreatAgain(body) {
     var result = [];
 
-    if (body[0] === undefined) {
-        body.push({});
+    if (!body[0]) {
+        body = [{}];
     }
 
 
