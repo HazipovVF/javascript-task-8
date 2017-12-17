@@ -8,18 +8,18 @@ var messages = [];
 
 server.on('request', (req, res) => {
     // Тут нужно обработать запрос
-    const pathname = url.parse(req.url).pathname;
+    const path = url.parse(req.url);
     const query = url.parse(req.url).query;
     const fromAndTo = qs.parse(query);
     res.setHeader('Content-Type', 'application/json');
-
-    if (req.method === 'GET' && pathname === '/messages') {
+    var urlTest = /^\/messages$/.test(path);
+    if (req.method === 'GET' && !urlTest) {
         var filtredData = JSON.stringify(getFiltredData(fromAndTo));
         res.write(filtredData);
         res.end();
     }
 
-    if (req.method === 'POST' && pathname === '/messages') {
+    if (req.method === 'POST' && !urlTest) {
         var body = '';
 
         req.on('data', chunk => {
