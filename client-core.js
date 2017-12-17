@@ -105,6 +105,11 @@ function rightData(from, to) {
 
 function makeBodyGreatAgain(body) {
     var result = [];
+
+    if(body[0] === undefined) {
+        body.push({});
+    }
+
     body.forEach(function (element) {
 
         var str = '';
@@ -116,9 +121,9 @@ function makeBodyGreatAgain(body) {
             str += red('TO') + ': ' + element.to + '\n';
         }
 
-        if (element.text !== undefined) {
-            str += green('TEXT') + ': ' + element.text;
-        }
+
+        str += green('TEXT') + ': ' + element.text;
+
 
         result.push(str);
     });
