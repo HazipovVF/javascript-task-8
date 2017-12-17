@@ -66,9 +66,8 @@ function sendMassege(from, to, text) {
             if (error) {
                 reject('ОШИБКА');
             }
-            var tempArray = [];
-            tempArray.push(body);
-            var coolBody = makeBodyGreatAgain(tempArray);
+
+            var coolBody = makeBodyGreatAgain2(body);
             resolve(coolBody);
         });
     });
@@ -91,10 +90,6 @@ function rightData(from, to) {
 function makeBodyGreatAgain(body) {
     var result = [];
 
-    if (body[0] === undefined) {
-        body.push({});
-    }
-
     body.forEach(function (element) {
 
         var str = '';
@@ -112,6 +107,28 @@ function makeBodyGreatAgain(body) {
 
         result.push(str);
     });
+
+    return result.join('\n\n');
+}
+
+function makeBodyGreatAgain2(body) {
+    var result = [];
+
+    var str = '';
+    if (body.from !== undefined) {
+        str += red('FROM') + ': ' + body.from + '\n';
+    }
+
+    if (body.to !== undefined) {
+        str += red('TO') + ': ' + body.to + '\n';
+    }
+
+
+    str += green('TEXT') + ': ' + body.text;
+
+
+    result.push(str);
+
 
     return result.join('\n\n');
 }
