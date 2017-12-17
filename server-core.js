@@ -39,24 +39,25 @@ server.on('request', (req, res) => {
 function getFiltredData(fromAndTo) {
     var result = messages;
 
-    function fltr(element) {
-        if (fromAndTo.from !== undefined) {
+    if (fromAndTo.from !== undefined && fromAndTo.to !== undefined) {
+        return result.filter(function (element) {
+            return element.from === fromAndTo.from && element.to === fromAndTo.to;
+        });
+    }
+
+    if (fromAndTo.from !== undefined) {
+        return result.filter(function (element) {
             return element.from === fromAndTo.from;
-        }
-
-        return true;
+        });
     }
 
-    function fltr2(element) {
-        if (fromAndTo.to !== undefined) {
+    if (fromAndTo.to !== undefined) {
+        return result.filter(function (element) {
             return element.to === fromAndTo.to;
-        }
-
-        return true;
+        });
     }
 
-
-    return result.filter(fltr).filter(fltr2);
+    return result;
 }
 
 function getData(fromAndTo, text) {
