@@ -17,8 +17,7 @@ function execute() {
     var from = args.from;
     var to = args.to;
     var text = args.text;
-    if (args.text === undefined) 
-    {
+    if (args.text === undefined) {
         text = null;
     }
     var command = process.argv[2];
