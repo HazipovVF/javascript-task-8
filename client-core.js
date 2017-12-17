@@ -17,6 +17,10 @@ function execute() {
     var from = args.from;
     var to = args.to;
     var text = args.text;
+    if (args.text === undefined) 
+    {
+        text = null;
+    }
     var command = process.argv[2];
     switch (command) {
         case 'send':
@@ -119,7 +123,6 @@ function makeBodyGreatAgain(body) {
 
         result.push(str);
     });
-
 
     return result.join('\n\n');
 }
