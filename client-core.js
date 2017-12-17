@@ -4,24 +4,30 @@ module.exports.execute = execute;
 module.exports.isStar = false;
 
 const request = require('request');
-const minimist = require('minimist');
 
 const URL = 'http://localhost:8080/messages';
 const chalk = require('chalk');
 const red = chalk.hex('#f00');
 const green = chalk.hex('#0f0');
 
+var ArgumentParser = require('argparse').ArgumentParser;
+var parser = new ArgumentParser({});
+parser.addArgument(
+    ['--from']
+);
+parser.addArgument(
+    ['--to']
+);
+parser.addArgument(
+    ['--text']
+);
+
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
-    const args = minimist(process.argv.slice(3), {
-        string: ['from', 'to']
-    });
+    const args = parser.parseArgs(process.argv.slice(3));
     var from = args.from;
     var to = args.to;
     var text = args.text;
-    if (text === true) {
-        return Promise.reject('ошибка');
-    }
     if (args.text === undefined) {
         text = null;
     }
