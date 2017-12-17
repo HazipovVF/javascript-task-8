@@ -8,16 +8,15 @@ var messages = [];
 
 server.on('request', (req, res) => {
     // Тут нужно обработать запрос
-    const path = url.parse(req.url);
     const query = url.parse(req.url).query;
     const fromAndTo = qs.parse(query);
     res.setHeader('Content-Type', 'application/json');
-    var urlTest = /^\/messages$/.test(path);
-    if (req.method === 'GET' && !urlTest) {
+    var urlTest = (/^\/messages($|\?)/).test(req.url);
+    if (req.method === 'GET' && urlTest) {
         var filtredData = JSON.stringify(getFiltredData(fromAndTo));
         res.write(filtredData);
         res.end();
-    } else if (req.method === 'POST' && !urlTest) {
+    } else if (req.method === 'POST' && urlTest) {
         var body = '';
 
         req.on('data', chunk => {
