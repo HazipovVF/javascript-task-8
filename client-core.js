@@ -56,6 +56,9 @@ function listMasseges(from, to) {
                     var coolBody = makeBodyGreatAgain(JSON.parse(body));
                     resolve(coolBody);
                 });
+            })
+            .on('error', () => {
+                reject('error');
             });
     });
 }
@@ -87,6 +90,9 @@ function sendMassege(from, to, text) {
                     var coolBody = makeBodyGreatAgain(tempArray);
                     resolve(coolBody);
                 });
+            })
+            .on('error', () => {
+                reject('error');
             });
     });
 }
