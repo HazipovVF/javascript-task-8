@@ -8,8 +8,6 @@ const minimist = require('minimist');
 
 const URL = 'http://localhost:8080/messages';
 const chalk = require('chalk');
-const red = chalk.hex('#f00');
-const green = chalk.hex('#0f0');
 
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
@@ -97,15 +95,15 @@ function makeBodyGreatAgain(body) {
 
         var str = '';
         if (element.from) {
-            str += `${red('FROM')}: ${element.from}\n`;
+            str += `${chalk.hex('#f00')('FROM')}: ${element.from}\n`;
         }
 
 
         if (element.to) {
-            str += `${red('TO')}: ${element.to}\n`;
+            str += `${chalk.hex('#f00')('TO')}: ${element.to}\n`;
         }
 
-        str += `${green('TEXT')}: ${element.text}`;
+        str += `${chalk.hex('#0f0')('TEXT')}: ${element.text}`;
 
 
         result.push(str);
