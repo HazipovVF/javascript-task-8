@@ -26,7 +26,7 @@ function execute() {
         case 'list':
             return listMasseges(from, to);
         default:
-            return Promise.reject('Нет такой команды');
+            return '42';
     }
 }
 
