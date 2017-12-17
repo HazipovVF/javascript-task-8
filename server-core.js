@@ -39,19 +39,19 @@ server.on('request', (req, res) => {
 function getFiltredData(fromAndTo) {
     var result = messages;
 
-    if (fromAndTo.from !== undefined && fromAndTo.to !== undefined) {
+    if (fromAndTo.from && fromAndTo.to) {
         return result.filter(function (element) {
             return element.from === fromAndTo.from && element.to === fromAndTo.to;
         });
     }
 
-    if (fromAndTo.from !== undefined) {
+    if (fromAndTo.from) {
         return result.filter(function (element) {
             return element.from === fromAndTo.from;
         });
     }
 
-    if (fromAndTo.to !== undefined) {
+    if (fromAndTo.to) {
         return result.filter(function (element) {
             return element.to === fromAndTo.to;
         });
