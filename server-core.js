@@ -26,7 +26,7 @@ server.on('request', (req, res) => {
         req.on('end', () =>{
             var text = JSON.parse(body).text;
             messages.push(getData(fromAndTo, text));
-            res.write(JSON.stringify(messages[messages.length - 1]));
+            res.write(JSON.stringify(getData(fromAndTo, text)));
             res.end();
         });
     } else {
