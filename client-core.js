@@ -106,7 +106,7 @@ function rightData(from, to) {
 function makeBodyGreatAgain(body) {
     var result = [];
 
-    if(body[0] === undefined) {
+    if (body[0] === undefined) {
         body.push({});
     }
 
