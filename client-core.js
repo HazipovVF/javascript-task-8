@@ -19,6 +19,9 @@ function execute() {
     var from = args.from;
     var to = args.to;
     var text = args.text;
+    if(from === '' || to === '') {
+        return Promise.reject('ошибка');
+    }
     if (args.text === undefined) {
         text = null;
     }
@@ -100,11 +103,11 @@ function sendMassege(from, to, text) {
 function rightData(from, to) {
     var result = {};
 
-    if (from !== undefined && from !== true) {
+    if (from) {
         result.from = from;
     }
 
-    if (to !== undefined && to !== true) {
+    if (to) {
         result.to = to;
     }
 
