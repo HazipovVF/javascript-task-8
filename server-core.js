@@ -11,12 +11,11 @@ server.on('request', (req, res) => {
     const query = url.parse(req.url).query;
     const fromAndTo = qs.parse(query);
     res.setHeader('Content-Type', 'application/json');
-    var urlTest = (/^\/messages($|\?)/).test(req.url);
-    if (req.method === 'GET' && urlTest) {
+    if (req.method === 'GET') {
         var filtredData = JSON.stringify(getFiltredData(fromAndTo));
         res.write(filtredData);
         res.end();
-    } else if (req.method === 'POST' && urlTest) {
+    } else {
         var body = '';
 
         req.on('data', chunk => {
@@ -29,9 +28,6 @@ server.on('request', (req, res) => {
             res.write(JSON.stringify(getData(fromAndTo, text)));
             res.end();
         });
-    } else {
-        res.statuscode = 404;
-        res.end();
     }
 
 });
