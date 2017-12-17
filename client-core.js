@@ -13,7 +13,9 @@ const green = chalk.hex('#0f0');
 
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
-    const args = minimist(process.argv.slice(3));
+    const args = minimist(process.argv.slice(3), {
+        string: ['from', 'to']
+    });
     var from = args.from;
     var to = args.to;
     var text = args.text;
