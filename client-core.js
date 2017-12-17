@@ -24,8 +24,7 @@ function execute() {
         case 'list':
             return listMasseges(from, to);
         default:
-            Promise.reject('Нет такой команды');
-            break;
+            return Promise.reject('Нет такой команды');
     }
 }
 
