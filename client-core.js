@@ -19,7 +19,7 @@ function execute() {
     var from = args.from;
     var to = args.to;
     var text = args.text;
-    if (from === '' || to === '' || text === true) {
+    if (text === true) {
         return Promise.reject('ошибка');
     }
     if (args.text === undefined) {
