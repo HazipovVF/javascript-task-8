@@ -17,9 +17,7 @@ server.on('request', (req, res) => {
         var filtredData = JSON.stringify(getFiltredData(fromAndTo));
         res.write(filtredData);
         res.end();
-    }
-
-    if (req.method === 'POST' && !urlTest) {
+    } else if (req.method === 'POST' && !urlTest) {
         var body = '';
 
         req.on('data', chunk => {
