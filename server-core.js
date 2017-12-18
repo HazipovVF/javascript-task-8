@@ -30,7 +30,7 @@ server.on('request', (req, res) => {
             res.end();
         });
     } else {
-        res.statuscode = 404;
+        res.statusCode = 404;
         res.end();
     }
 
