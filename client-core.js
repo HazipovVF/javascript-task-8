@@ -11,47 +11,48 @@ const chalk = require('chalk');
 
 function execute() {
     // Внутри этой функции нужно получить и обработать аргументы командной строки
-    const args = minimist(process.argv.slice(3), {
+    const paramInput = process.argv.slice(3);
+    const args = minimist(paramInput, {
         string: ['from', 'to']
     });
-    var from = args.from;
-    var to = args.to;
-    var text = args.text;
-    var command = process.argv[2];
+    const from = args.from;
+    const to = args.to;
+    const text = args.text;
+
+    const command = process.argv[2];
     switch (command) {
         case 'send':
-            return sendMassege(from, to, text);
+            return sendMessage(from, to, text);
         case 'list':
-            return listMasseges(from, to);
+            return listMessages(from, to);
         default:
             return Promise.reject('Нет такой команды');
     }
 }
 
-function listMasseges(from, to) {
+function listMessages(from, to) {
     return new Promise ((resolve, reject) => {
-        var options = {
+        let options = {
             url: URL,
-            qs: rightData(from, to),
-            method: 'GET',
+            qs: getObject(from, to),
             json: true
         };
 
         request(options, (error, response, body) =>{
             if (error) {
-                reject('ОШИБКА');
+                reject(error);
             }
-            var coolBody = makeBodyGreatAgain(body);
+            let coolBody = colorMessages(body);
             resolve(coolBody);
         });
     });
 }
 
-function sendMassege(from, to, text) {
+function sendMessage(from, to, text) {
     return new Promise ((resolve, reject) => {
-        var options = {
+        let options = {
             url: URL,
-            qs: rightData(from, to),
+            qs: getObject(from, to),
             method: 'POST',
             body: { text: text },
             json: true
@@ -59,18 +60,18 @@ function sendMassege(from, to, text) {
 
         request(options, (error, response, body) =>{
             if (error) {
-                reject('ОШИБКА');
+                reject(error);
             }
-            var tempArray = [];
+            let tempArray = [];
             tempArray.push(body);
-            var coolBody = makeBodyGreatAgain(tempArray);
+            let coolBody = colorMessages(tempArray);
             resolve(coolBody);
         });
     });
 }
 
-function rightData(from, to) {
-    var result = {};
+function getObject(from, to) {
+    let result = {};
 
     if (from) {
         result.from = from;
@@ -83,8 +84,8 @@ function rightData(from, to) {
     return result;
 }
 
-function makeBodyGreatAgain(body) {
-    var result = [];
+function colorMessages(body) {
+    let result = [];
 
     if (!body[0]) {
         body = [{}];
@@ -93,7 +94,7 @@ function makeBodyGreatAgain(body) {
 
     body.forEach(function (element) {
 
-        var str = '';
+        let str = '';
         if (element.from) {
             str += `${chalk.hex('#f00')('FROM')}: ${element.from}\n`;
         }
